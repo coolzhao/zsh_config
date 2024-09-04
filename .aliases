@@ -28,6 +28,12 @@ alias untar="tar -xf"
 alias fd='find . -type d -name'
 alias ff='find . -type f -name'
 
+# disk usage
+alias biggest='du -s ./* | sort -nr | awk '\''{print $2}'\'' | xargs du -sh'
+alias dux='du -x --max-depth=1 | sort -n'
+alias dud='du -d 1 -h'
+alias duf='du -sh *'
+
 # url encode/decode
 alias urldecode='python3 -c "import sys, urllib.parse as ul; \
     print(ul.unquote_plus(sys.argv[1]))"'
@@ -39,3 +45,8 @@ alias please=sudo
 alias zshrc='${EDITOR:-vim} "${ZDOTDIR:-$HOME}"/.zshrc'
 alias zbench='for i in {1..10}; do /usr/bin/time zsh -lic exit; done'
 alias zdot='cd ${ZDOTDIR:-~}'
+
+# print things
+alias print-fpath='for fp in $fpath; do echo $fp; done; unset fp'
+alias print-path='echo $PATH | tr ":" "\n"'
+alias print-functions='print -l ${(k)functions[(I)[^_]*]} | sort'

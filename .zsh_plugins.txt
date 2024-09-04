@@ -106,10 +106,10 @@ $ZDOTDIR/.aliases
 ###
 
 # Use kind:fpath for prompts you want available to promptinit.
-romkatv/powerlevel10k kind:fpath
+romkatv/powerlevel10k # kind:fpath
 
 # Or, just load a prompt plugin the normal way.
-sindresorhus/pure
+# sindresorhus/pure
 
 
 ### Utilities
@@ -150,7 +150,7 @@ romkatv/zsh-bench kind:path
 #
 ####
 getantidote/use-omz
-ohmyzsh/ohmyzsh path:lib/clipboard.zsh
+ohmyzsh/ohmyzsh path:lib # /clipboard.zsh
 ohmyzsh/ohmyzsh path:plugins/copybuffer
 ohmyzsh/ohmyzsh path:plugins/copyfile
 ohmyzsh/ohmyzsh path:plugins/copypath
@@ -237,3 +237,6 @@ zdharma-continuum/fast-syntax-highlighting kind:defer
 # These popular core plugins should be loaded at the end
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-history-substring-search
+
+# Added by Joey
+jeffreytse/zsh-vi-mode
