@@ -33,6 +33,10 @@ git clone https://github.com/coolzhao/zsh_config $ZDOTDIR
 # symlink .zshenv
 [[ -f ~/.zshenv ]] && mv -f ~/.zshenv ~/.zshenv.bak
 ln -s $ZDOTDIR/.zshenv ~/.zshenv
+
+# install antidote
+git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-$HOME}/.antidote
+
 ```
 
 [antidote]: https://getantidote.github.io
