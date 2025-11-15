@@ -6,7 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 if [[ "$OSTYPE" == linux* ]]; then
-  export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+  export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$HOME/Apps/texlive/2025/bin/x86_64-linux:$PATH
 fi
 
 #!/bin/zsh
@@ -64,3 +64,4 @@ fi
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+
