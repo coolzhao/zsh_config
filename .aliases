@@ -25,7 +25,7 @@ alias tarls="tar -tvf"
 alias untar="tar -xf"
 
 # find
-alias fd='find . -type d -name'
+# alias fd='find . -type d -name' # conflict with fd-find for LazzyVim https://github.com/sharkdp/fd
 alias ff='find . -type f -name'
 
 # disk usage

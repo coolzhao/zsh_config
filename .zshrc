@@ -6,7 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 if [[ "$OSTYPE" == linux* ]]; then
-  export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$HOME/Apps/texlive/2025/bin/x86_64-linux:$PATH
+  export PATH=$HOME/bin:$HOME/.local/bin:$HOME/.local/nvim/bin:/usr/local/bin:$HOME/Apps/texlive/2025/bin/x86_64-linux:$PATH
 fi
 
 #!/bin/zsh
@@ -20,7 +20,13 @@ setopt extended_glob
 # Autoload functions you might want to use with antidote.
 ZFUNCDIR=${ZFUNCDIR:-$ZDOTDIR/functions}
 fpath=($ZFUNCDIR $fpath)
-autoload -Uz $fpath[1]/*(.:t)
+# Only attempt to autoload if the functions directory exists and has files.
+# Uses '(N.:t)' glob qualifiers to match regular files (.), take the base name (:t),
+# and enable null_glob (N) to gracefully return an empty list if nothing matches.
+if [[ -d $ZFUNCDIR ]]; then
+  local funcs=($ZFUNCDIR/*(N.:t))
+  (( $#funcs )) && autoload -Uz $funcs
+fi
 
 # Source zstyles you might use with antidote.
 [[ -e ${ZDOTDIR:-~}/.zstyles ]] && source ${ZDOTDIR:-~}/.zstyles
@@ -65,3 +71,7 @@ fi
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
+
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
