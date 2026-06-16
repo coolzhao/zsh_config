@@ -49,14 +49,36 @@ agent_start () {
 
 agent_load_env
 
-# agent_run_state: 0=agent running w/ key; 1=agent w/o key; 2=agent not running
+# Check if agent is running (0 = running w/ keys, 1 = running w/o keys, 2 = not running)
 agent_run_state=$(ssh-add -l >| /dev/null 2>&1; echo $?)
 
 if [ ! "$SSH_AUTH_SOCK" ] || [ $agent_run_state = 2 ]; then
     agent_start
-    ssh-add
-elif [ "$SSH_AUTH_SOCK" ] && [ $agent_run_state = 1 ]; then
-    ssh-add
 fi
+
+# Function to check if a specific key is already loaded in the agent, and load it if missing
+add_key_if_missing() {
+    local key_path="$1"
+    
+    # Only proceed if the private key file actually exists on this system
+    if [ -f "$key_path" ]; then
+        local fingerprint
+        
+        # Get the SHA256 fingerprint of the key file (e.g. "SHA256:abc...").
+        # ssh-keygen -lf extracts the fingerprint. awk '{print $2}' retrieves just the hash column.
+        fingerprint=$(ssh-keygen -lf "$key_path" 2>/dev/null | awk '{print $2}')
+        
+        # Check if the fingerprint is non-empty and NOT found in the list of currently loaded keys.
+        # ssh-add -l lists loaded keys. grep -q searches silently for the fingerprint.
+        if [ -n "$fingerprint" ] && ! ssh-add -l 2>/dev/null | grep -q "$fingerprint"; then
+            # Key is not loaded, so add it to the active SSH agent session
+            ssh-add "$key_path"
+        fi
+    fi
+}
+
+# Ensure both local keys are checked and loaded if missing from the active agent
+add_key_if_missing ~/.ssh/id_rsa
+add_key_if_missing ~/.ssh/id_ed25519
 
 unset env
